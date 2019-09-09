@@ -13,8 +13,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.backgroundeditor.api.RetrofitClient;
@@ -38,15 +42,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private Button btn_foto, btn_camara, nuevaFoto;
+    private Spinner spinner;
     private static final int PICK_IMAGE = 12;
     private static final int CAPTURA_FOTO = 13;
+
+    private EditText email;
 
     private ImageView mPhotoImageView;
     Uri uriImagen = null;
     String imageFilePath;
+    String elegido;
 
 
 
@@ -86,7 +94,27 @@ public class MainActivity extends AppCompatActivity {
 
         mPhotoImageView = findViewById(R.id.imageden);
 
+        email = findViewById(R.id.editTextEmail);
 
+        spinner = findViewById(R.id.spinner1);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.numbers, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+
+
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        elegido = parent.getItemAtPosition(position).toString();
+       //Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 
@@ -188,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
     public void nuevaDenuncia(View v) throws IOException {
 
 
-        String email = "leaguepablo16@gmail.com";
+        String email1 = email.getText().toString();
 
 
         File fil = FileUtil.from(this, this.uriImagen);
@@ -199,19 +227,22 @@ public class MainActivity extends AppCompatActivity {
         System.out.print("Comprimida: " + file.length());
         RequestBody rqBody = RequestBody.create(MediaType.parse("multipart/form-data*"), file);
         MultipartBody.Part imagen = MultipartBody.Part.createFormData("foto", file.getName(), rqBody);
-        RequestBody emailRB = RequestBody.create(MediaType.parse("multipart/form-data*"), email);
+        RequestBody emailRB = RequestBody.create(MediaType.parse("multipart/form-data*"), email1);
+        RequestBody fondoRB = RequestBody.create(MediaType.parse("multipart/form-data*"), elegido);
 
 
         Call<ResponseBody> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .nuevaFoto(imagen,emailRB);
+                .nuevaFoto(imagen,emailRB,fondoRB);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
+                /*
                 String s = null;
+
 
                 try {
                     if (response.code() == 201){
@@ -235,8 +266,8 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
-
-
+*/
+                Toast.makeText(MainActivity.this, "Su Imagen está siendo procesada!!", Toast.LENGTH_LONG).show();
             }
 
             @Override

@@ -15,6 +15,6 @@ public interface Api {
     @Multipart
     @POST("nuevafoto")
     Call<ResponseBody> nuevaFoto(@Part MultipartBody.Part file,
-                                     @Part("email") RequestBody email);
-
+                                    @Part("email") RequestBody email,
+                                    @Part("fondo") RequestBody fondo);
 }

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">BackgroundEditor</string>
+
+    <string-array name="numbers">
+        <item>Tecnología</item>
+        <item>Emojis</item>
+
+    </string-array>
+
 </resources>
