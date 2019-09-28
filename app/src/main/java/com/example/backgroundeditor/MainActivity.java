@@ -1,24 +1,30 @@
 package com.example.backgroundeditor;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
+
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.backgroundeditor.api.RetrofitClient;
@@ -56,6 +62,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     String imageFilePath;
     String elegido;
 
+    AlertDialog alertDialog;
+
+    String[] nombreFondo;
+    Integer[] imagenFondo;
+
 
 
     @Override
@@ -68,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View v) {
                 try {
-                    nuevaDenuncia(v);
+                    nuevaFoto(v);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -91,26 +102,79 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
+        final Button cancelar = findViewById(R.id.btn_cancelar);
+        cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reinciar1(v);
+            }   });
 
         mPhotoImageView = findViewById(R.id.imageden);
 
         email = findViewById(R.id.editTextEmail);
 
-        spinner = findViewById(R.id.spinner1);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.numbers, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        nombreFondo = new String[]{"Selecciona un fondo...", "fondo1", "fondo2", "fondo3", "fondo4", "fondo5","fondo6","fondo7","fondo8","fondo9",};
+        imagenFondo = new Integer[]{R.drawable.ic_photo_size_select_actual_black_24dp,R.drawable.fondo1, R.drawable.fondo2, R.drawable.fondo3, R.drawable.fondo4,R.drawable.fondo5 ,R.drawable.fondo6,R.drawable.fondo7,R.drawable.fondo8,R.drawable.fondo9};
+
+        spinner = (Spinner)findViewById(R.id.spinner1);
+
+        MyAdapterSpinner adapter = new MyAdapterSpinner(getApplicationContext(), R.layout.item_custom, nombreFondo, imagenFondo);
+
+        //Set Your Custom Adapter To Your Spinner
         spinner.setAdapter(adapter);
+
+        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+        //        R.array.numbers, android.R.layout.simple_spinner_item);
+        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
 
 
     }
 
+
+    protected class MyAdapterSpinner extends ArrayAdapter {
+
+        Integer[] Image;
+        String[] Text;
+
+        public MyAdapterSpinner(Context context, int resource, String[] text, Integer[] image) {
+            super(context, resource, text);
+            Image = image;
+            Text = text;
+        }
+
+        public View getCustomView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = getLayoutInflater();
+            View view = inflater.inflate(R.layout.item_custom, parent, false);
+
+            //Set Custom View
+            TextView tv = (TextView)view.findViewById(R.id.textView);
+            ImageView img = (ImageView) view.findViewById(R.id.imageView);
+
+            tv.setText(Text[position]);
+            img.setImageResource(Image[position]);
+
+            return view;
+        }
+
+        @Override
+        public View getDropDownView(int position,View convertView, ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
+    }
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         elegido = parent.getItemAtPosition(position).toString();
-       //Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
+       Toast.makeText(parent.getContext(), elegido, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -213,7 +277,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return image;
     }
 
-    public void nuevaDenuncia(View v) throws IOException {
+    public void nuevaFoto(View v) throws IOException {
+
+
+        if(this.uriImagen==null){
+            Toast.makeText(MainActivity.this, "Debe tomarse una foto para continuar...", Toast.LENGTH_SHORT).show();
+            return;}
+
+        if(elegido.compareTo("Selecciona un fondo...")==0){
+            Toast.makeText(MainActivity.this, "Debe seleccionar un fondo para continuar...", Toast.LENGTH_SHORT).show();
+            return;}
 
 
         String email1 = email.getText().toString();
@@ -239,17 +312,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
-                /*
+/*
                 String s = null;
-
 
                 try {
                     if (response.code() == 201){
-                        s = response.body().string();
+                        showCustomDialog();
                     }
                     else{
-                        s = response.errorBody().string();
+                        s = response.body().string();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -265,9 +336,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     }
 
                 }
-
 */
-                Toast.makeText(MainActivity.this, "Su Imagen está siendo procesada!!", Toast.LENGTH_LONG).show();
+showCustomDialog();
+                //Toast.makeText(MainActivity.this,"Imagen enviada con éxito!!", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -278,4 +349,36 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
     }
+
+    private void showCustomDialog() {
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.enviada_exito, viewGroup, false);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+
+        builder.setView(dialogView);
+
+        //finally creating the alert dialog and displaying it
+        alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    public void reinciar(View view){
+
+        alertDialog.dismiss();
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+
+    }
+
+    public void reinciar1(View view){
+
+
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+
+    }
+
 }
