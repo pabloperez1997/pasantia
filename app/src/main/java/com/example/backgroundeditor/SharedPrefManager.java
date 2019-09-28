@@ -32,14 +32,14 @@ public class SharedPrefManager {
 
     }
 
-    /*public boolean estaLogueado(){
+    public boolean estaConfigurado(){
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
-        if (sharedPreferences.getString("ci", "UsuarioDefecto") != "UsuarioDefecto")
+        if (sharedPreferences.getString("ruta", "rutaDefecto") != "rutaDefecto")
             return true;
 
         return false;
-    }*/
+    }
 
     public String getRuta(){
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);

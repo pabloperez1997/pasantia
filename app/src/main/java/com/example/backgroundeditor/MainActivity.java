@@ -109,9 +109,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(!SharedPrefManager.getInstance(this).estaConfigurado()){
+
+
+
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.commonmenus, menu);
         return super.onCreateOptionsMenu(menu);
     }
@@ -119,12 +130,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-
         if(id==R.id.settings){
-            Toast.makeText(this,"Settings", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(MainActivity.this, ConfigActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -259,14 +275,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
+                /*
                 String s = null;
+
 
                 try {
                     if (response.code() == 201){
                         s = response.body().string();
                     }
                     else{
-                        s = response.body().string();
+                        s = response.errorBody().string();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -283,8 +301,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 }
 
-
-
+*/
+                Toast.makeText(MainActivity.this, "Su Imagen está siendo procesada!!", Toast.LENGTH_LONG).show();
             }
 
             @Override

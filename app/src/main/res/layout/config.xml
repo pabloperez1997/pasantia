@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryBackground"
+    android:background="@color/followers"
     tools:context=".MainActivity"
     android:orientation="vertical"
     android:gravity="center">
@@ -22,41 +22,47 @@
         >
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:background="@color/colorFormBackground"
+            android:gravity="center|center_horizontal"
+            android:orientation="vertical"
+            android:padding="5dp"
+            >
 
             <TextView
                 android:id="@+id/lbl_titulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=" Email"
+                android:text=" Servidor"
                 android:textSize="20sp"
+                android:textColor="#000000"
                 />
 
             <EditText
-                android:id="@+id/editTextEmail"
+                android:id="@+id/editTextConfig"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:drawableLeft="@drawable/ic_email"
+                android:drawableLeft="@drawable/ic_settings_black_24dp"
                 android:drawablePadding="5dp"
-                android:hint="Escriba su email aqui..."
+                android:hint="Ingrese URL del Servidor"
                 android:inputType="textEmailAddress" />
 
-            <Spinner
-                android:id="@+id/spinner1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <Button
+                android:id="@+id/btn_guardarconf"
+                android:layout_width="351dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="Guardar Cambios" />
 
-                />
 
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
             android:orientation="vertical"/>
 
@@ -66,13 +72,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/imageden"
-                android:layout_width="328dp"
-                android:layout_height="357dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:background="@android:color/transparent" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -82,13 +82,13 @@
                 <Button
                     android:id="@+id/btn_foto"
                     android:layout_width="170dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:text="Galeria" />
 
                 <Button
                     android:id="@+id/btn_camara"
                     android:layout_width="170dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:text="Camara" />
 
             </LinearLayout>
@@ -96,18 +96,13 @@
             <Button
                 android:id="@+id/btn_denunciar"
                 android:layout_width="351dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_above="@+id/btn_cancelar"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:text="ENVIAR FOTO" />
 
-            <Button
-                android:id="@+id/btn_cancelar"
-                android:layout_width="351dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Cancelar" />
+
 
         </LinearLayout>
 
