@@ -1,5 +1,6 @@
 package com.example.backgroundeditor;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -12,6 +13,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -105,6 +108,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+
+        getMenuInflater().inflate(R.menu.commonmenus, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if(id==R.id.settings){
+            Toast.makeText(this,"Settings", Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -240,16 +259,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
-                /*
                 String s = null;
-
 
                 try {
                     if (response.code() == 201){
                         s = response.body().string();
                     }
                     else{
-                        s = response.errorBody().string();
+                        s = response.body().string();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -266,8 +283,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 }
 
-*/
-                Toast.makeText(MainActivity.this, "Su Imagen está siendo procesada!!", Toast.LENGTH_LONG).show();
+
+
             }
 
             @Override
