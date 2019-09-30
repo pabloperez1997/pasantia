@@ -3,6 +3,8 @@ package com.example.backgroundeditor;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.ArrayList;
+
 public class SharedPrefManager {
 
     private static final String SHARED_PREF_NAME = "my_shared_preff";
@@ -49,6 +51,8 @@ public class SharedPrefManager {
         return ruta;
 
     }
+
+
 
     public void clear(){
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);

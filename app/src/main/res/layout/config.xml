@@ -72,39 +72,18 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center">
-
-                <Button
-                    android:id="@+id/btn_foto"
-                    android:layout_width="170dp"
-                    android:layout_height="40dp"
-                    android:text="Galeria" />
-
-                <Button
-                    android:id="@+id/btn_camara"
-                    android:layout_width="170dp"
-                    android:layout_height="40dp"
-                    android:text="Camara" />
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/btn_denunciar"
-                android:layout_width="351dp"
-                android:layout_height="40dp"
-                android:layout_above="@+id/btn_cancelar"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:text="ENVIAR FOTO" />
-
-
-
         </LinearLayout>
 
+        <Button
+            android:id="@+id/button_back"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:drawableLeft="@drawable/ic_reply_black_24dp"
+            android:text="Regresar" />
+
     </LinearLayout>
+
+
 </LinearLayout>
+
